@@ -49,7 +49,7 @@ The GitHub handoff copy therefore includes image files in `client/public/images/
 
 ## Project inquiry form
 
-The founder-note **Start a Project** button smoothly scrolls visitors to the section with `id="project-inquiry"`. The form captures name, email address, optional phone number, project type, and project details. On submission, `handleInquirySubmit` builds a `mailto:` URL addressed to Bart Bowman.
+The founder-note **Start a Project** button smoothly scrolls visitors to the unified contact section with `id="contact"`. The form captures name, email address, optional phone number, project type, and project details. On submission, `handleInquirySubmit` builds a `mailto:` URL addressed to Bart Bowman.
 
 This approach is static-site safe and requires no server credentials. It relies on the visitor having a configured email client. For direct form delivery, replace the handler with a provider such as Formspree, Netlify Forms, Resend through a serverless function, or a CRM integration. Do not put API credentials in this static client repository.
 

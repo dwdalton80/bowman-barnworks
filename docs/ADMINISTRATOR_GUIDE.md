@@ -79,8 +79,7 @@ The page is arranged in the following order. Preserve this narrative sequence un
 | Why Choose Us | `#why-choose` | Presents three trust-building craftsmanship principles | Icon imports, principle titles, and descriptions. |
 | Services | Following trust section | Displays Rustic Structures, Custom Carpentry, and Home Improvement against a windmill photo | `services` array near the top of `Home.tsx`. |
 | FAQ | Following services | Handles standard first-contact questions | The three question-and-answer strings in `Home.tsx`. |
-| Project inquiry | `#project-inquiry` | Collects lead details and prepares an email to Bart | Form field labels, options, recipient address, and mailto body. |
-| Final contact | `#contact` | Provides email, address, Facebook link, and final CTA | Address, email, social URL, closing copy. |
+| Unified contact and inquiry | `#contact` | Combines lead details, Bart’s email, street address, Facebook link, and the project form in one final destination | Form labels, options, recipient address, contact details, and mailto body. |
 | Footer | Page end | Repeats core brand line and copyright | Shortest and lowest-priority content. |
 
 ## 5. Hero section management
@@ -105,7 +104,7 @@ The signature beneath Bart’s name is a **brand-style graphical signature**, no
 
 The **Start a Project** button below the signature calls `scrollTo("project-inquiry")`. Its hover state uses a 200 ms lift, rust fill, text-color transition, and diagonal arrow movement. Preserve the visible `focus-visible` styling for keyboard accessibility.
 
-## 8. Contact form administration
+## 8. Unified contact and inquiry administration
 
 The form is intentionally honest about its behavior: it says that submitting opens a pre-addressed email to Bart. The `handleInquirySubmit` function encodes the visitor’s details into the email subject and message body.
 
