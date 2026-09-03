@@ -122,7 +122,7 @@ ${inquiry.details}`);
             <p className="story-copy mt-8 max-w-md text-xl leading-relaxed text-[#eedbbd]">Rustic structures and honest craftsmanship for the places that matter most.</p>
             <div className="mt-9 flex flex-wrap items-center gap-4"><button onClick={() => scrollTo("contact")} className="rounded-full bg-[#e3a14c] px-6 py-4 text-xs font-black uppercase tracking-[0.18em] text-[#24140f] transition hover:-translate-y-1 hover:bg-[#f2be6b]">Let’s build something <ArrowUpRight className="ml-2 inline h-4 w-4" /></button><button onClick={() => scrollTo("work")} className="px-3 py-4 text-xs font-bold uppercase tracking-[0.18em] text-white/80 transition hover:text-white">Explore the work ↓</button></div>
           </div>
-          <div className="hidden self-center border-l border-white/30 pl-7 text-sm leading-relaxed text-[#e0c7aa] lg:block lg:max-w-[260px]"><span className="mb-4 block text-2xl text-[#e3a14c]">“</span><p>We believe the best buildings don’t just occupy land — they belong to it.</p><p className="mt-5 text-[10px] font-bold uppercase tracking-[0.18em] text-[#e3a14c]">— The Bowman way</p></div>
+          <div className="hidden self-end border-l border-white/30 pl-7 pb-1 text-sm leading-relaxed text-[#e0c7aa] lg:block lg:max-w-[260px]"><span className="mb-4 block text-2xl text-[#e3a14c]">“</span><p>We believe the best buildings don’t just occupy land — they belong to it.</p><p className="mt-5 text-[10px] font-bold uppercase tracking-[0.18em] text-[#e3a14c]">— The Bowman way</p></div>
         </div>
       </section>
 
