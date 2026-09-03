@@ -1,74 +1,97 @@
 # Bowman Barnworks Website
 
-This repository contains the static marketing website for **Bowman Barnworks**, a Calera, Oklahoma construction and home-improvement company. The site presents the company’s rustic structures, custom carpentry, outdoor living work, founder story, and project inquiry flow in a Western-heritage visual system.
+Static marketing website for **Bowman Barnworks**, a Calera, Oklahoma construction and
+home-improvement company. Built with **Vite + React + TypeScript + Tailwind CSS** and
+deployed to **GitHub Pages** at **https://bowmanbarnworks.com**.
 
-> **Current website behavior:** The site is a client-side React application. The project inquiry form does not save submissions to a database. It opens a pre-addressed email to `bartbowman@gmail.com` with the visitor’s form details and displays an on-page confirmation that the email draft is ready for the visitor to review and send.
+> **Contact form behavior:** the project inquiry form does not save submissions to a
+> database. It opens a pre-addressed email to `bartbowman@gmail.com` with the visitor's
+> form details and shows an on-page confirmation that the draft is ready to review and
+> send. To capture submissions directly, swap `handleInquirySubmit` in
+> [`client/src/pages/Home.tsx`](client/src/pages/Home.tsx) for a form provider
+> (Formspree, Web3Forms, a serverless function, etc.). Do not put API credentials in
+> this repository.
 
-## Administrator start here
+## Project layout
 
-The current site is implemented as a Vite, React, TypeScript, and Tailwind CSS application. The primary page is [`client/src/pages/Home.tsx`](client/src/pages/Home.tsx). Global visual tokens, font imports, typography utilities, background textures, motion rules, and layout helpers are in [`client/src/index.css`](client/src/index.css).
-
-| Administrative task | Primary file or location | Notes |
-| --- | --- | --- |
-| Change headings, descriptions, services, gallery captions, founder quote, or form labels | `client/src/pages/Home.tsx` | The complete public website is rendered from one page component. |
-| Change logo, colors, typography, animated script underlines, wood textures, or shared responsive styles | `client/src/index.css` | Google Fonts are imported at the top of this file. |
-| Add or replace photos for a standard Vite/GitHub deployment | `client/public/images/` | Asset migration and filename mapping are defined in [`docs/ASSET-MANIFEST.md`](docs/ASSET-MANIFEST.md). |
-| Change page title or meta description | `client/index.html` | Update the document title and description together. |
-| Change routes or add new pages | `client/src/App.tsx` and `client/src/pages/` | The current site is a one-page experience. |
-| Update the project inquiry recipient | `client/src/pages/Home.tsx` | Search for `bartbowman@gmail.com` and update the `mailto:` destination. |
+| Path | Purpose |
+| --- | --- |
+| `client/index.html` | HTML shell — page `<title>`, meta description, favicon, social tags. |
+| `client/src/pages/Home.tsx` | The entire page: content, gallery data, FAQ data, form logic, CTAs. |
+| `client/src/index.css` | Fonts (Google Fonts), color tokens, typography utilities, textures, motion. |
+| `client/src/main.tsx` / `App.tsx` | React entry point. |
+| `client/public/images/` | All site images, served at `/images/<filename>`. |
+| `client/public/CNAME` | Custom domain for GitHub Pages (`bowmanbarnworks.com`). |
+| `.github/workflows/deploy.yml` | Builds and publishes to GitHub Pages on every push to `main`. |
+| `docs/` | Administrator guide and image manifest. |
 
 ## Local development
 
-### Prerequisites
-
-Use Node.js 22 or later and pnpm 10 or later. The project lockfile expects pnpm.
+Requires **Node.js 20+** (CI uses 22).
 
 ```bash
-pnpm install
-pnpm dev
+npm install
+npm run dev      # start the dev server, open the printed URL
+npm run build    # type-check + production build into dist/
+npm run preview  # serve the production build locally
 ```
 
-The development server is served by Vite. Open the local URL printed in the terminal after the command starts.
+## Deployment (GitHub Pages)
 
-### Quality checks
+Deployment is automatic. On every push to `main`, the workflow in
+`.github/workflows/deploy.yml` runs `npm ci && npm run build` and publishes `dist/` to
+GitHub Pages.
 
-Run both checks before merging or deploying an update.
+One-time repository setup:
 
-```bash
-pnpm check
-pnpm build
-```
+1. **Settings → Pages → Build and deployment → Source:** select **GitHub Actions**.
+2. Push to `main` (or run the workflow manually from the **Actions** tab). The first
+   run creates the `github-pages` environment and publishes the site.
 
-`pnpm check` runs TypeScript without emitting files. `pnpm build` creates the production bundle in `dist/`.
+### Custom domain
 
-## Deployment and image storage
+`client/public/CNAME` already contains `bowmanbarnworks.com`, so the build ships a
+`CNAME` file and GitHub Pages picks it up automatically. At your DNS provider, add:
 
-The working Manus project stores images under `/manus-storage/...`, which is appropriate for its managed preview. A standard GitHub or third-party hosting deployment should use the self-contained images in `client/public/images/`, referenced as `/images/<filename>`.
+| Type | Host | Value |
+| --- | --- | --- |
+| A | `@` | `185.199.108.153` |
+| A | `@` | `185.199.109.153` |
+| A | `@` | `185.199.110.153` |
+| A | `@` | `185.199.111.153` |
+| CNAME | `www` | `dwdalton80.github.io.` |
 
-The GitHub handoff copy therefore includes image files in `client/public/images/` and rewrites all asset references away from managed storage. Do not remove these files unless the corresponding JSX reference is replaced. The full mapping between visual sections, public filenames, and original source files is in [`docs/ASSET-MANIFEST.md`](docs/ASSET-MANIFEST.md).
+(GitHub's apex-domain IPs — confirm against the current list in
+[GitHub's Pages docs](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site).)
+After DNS propagates, enable **Enforce HTTPS** in Settings → Pages.
 
-## Project inquiry form
+### Hosting without a custom domain
 
-The founder-note **Start a Project** button smoothly scrolls visitors to the unified contact section with `id="contact"`. The form captures name, email address, optional phone number, project type, and project details. On submission, `handleInquirySubmit` builds a `mailto:` URL addressed to Bart Bowman.
+If you ever serve from the project URL `https://dwdalton80.github.io/bowman-barnworks/`
+instead of the custom domain, add a repository variable **`BASE_PATH`** =
+`/bowman-barnworks/` (Settings → Secrets and variables → Actions → Variables). The build
+reads it via `vite.config.ts`. Note that image paths written as `/images/...` string
+literals in `Home.tsx` would also need a base prefix in that mode; the custom-domain
+setup (base `/`) needs no code changes.
 
-This approach is static-site safe and requires no server credentials. It relies on the visitor having a configured email client. For direct form delivery, replace the handler with a provider such as Formspree, Netlify Forms, Resend through a serverless function, or a CRM integration. Do not put API credentials in this static client repository.
+## Editing content
 
-## Documentation
+Almost everything is in `client/src/pages/Home.tsx`:
 
-| Document | Purpose |
-| --- | --- |
-| [`docs/ADMINISTRATOR_GUIDE.md`](docs/ADMINISTRATOR_GUIDE.md) | Complete design, content, layout, form, asset, and maintenance handoff. |
-| [`docs/ASSET-MANIFEST.md`](docs/ASSET-MANIFEST.md) | Image inventory, current placement, filenames, and replacement guidance. |
+- **Gallery:** the `projects` array near the top.
+- **Services:** the `services` array.
+- **FAQ:** the three question/answer strings.
+- **Inquiry recipient:** search for `bartbowman@gmail.com`.
+- **Headings, founder quote, contact details:** inline in the JSX.
 
-## Content accuracy and future maintenance
+Colors, fonts, and textures live in `client/src/index.css`. Images go in
+`client/public/images/` — see [`docs/ASSET-MANIFEST.md`](docs/ASSET-MANIFEST.md).
 
-The founder is **Bart Bowman**. The founder quote currently reads: “We build every project with one goal: make it honest, useful, and ready for the long haul.” Replace the quote only after receiving approved final wording from Bart.
+Run `npm run build` before committing to catch type errors.
 
-All project names and descriptions are presentational labels for the current gallery. Confirm project titles, locations, services, and permissions before publishing changes that make more specific client claims.
+## Origin
 
-## References
-
-[1]: https://vite.dev/guide/ "Vite Guide"
-[2]: https://react.dev/learn "React Documentation"
-[3]: https://tailwindcss.com/docs/installation/using-vite "Tailwind CSS with Vite"
-[4]: https://docs.github.com/en/pages "GitHub Pages documentation"
+This site was first prototyped with Manus. This repository is the standalone,
+self-hosted rebuild: Manus runtime plugins, the unused Express server, the component
+library, and client-side routing were removed, leaving the single-page site and a plain
+static build.

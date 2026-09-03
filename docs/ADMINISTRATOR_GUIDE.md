@@ -11,13 +11,15 @@ The Bowman Barnworks website is a single-page marketing experience designed to m
 
 The project is a static Vite application. It has no database, no user login, no protected dashboard, and no server-side contact capture. The contact form opens a prepared email to `bartbowman@gmail.com`. This makes the current site simple to host but means visitors need an email program configured on their device. The form’s handoff logic is in `handleInquirySubmit` inside `client/src/pages/Home.tsx`.
 
+The site is deployed to GitHub Pages by `.github/workflows/deploy.yml`, which runs on every push to `main`. The custom domain `bowmanbarnworks.com` is set in `client/public/CNAME`. See the repository `README.md` for deployment and DNS setup.
+
 ## 2. Technical architecture
 
 | Layer | Current choice | Administrator notes |
 | --- | --- | --- |
 | Framework | React 19 with TypeScript | The main website uses one `Home` component. |
-| Build system | Vite | Use `pnpm dev` for local work and `pnpm build` for production output. |
-| Styling | Tailwind CSS 4 plus custom CSS | Utility classes build component layout. Brand-wide typography, textures, and animation live in `client/src/index.css`. |
+| Build system | Vite | Use `npm run dev` for local work and `npm run build` for production output (into `dist/`). |
+| Styling | Tailwind CSS 4 plus custom CSS | Tailwind is wired through the `@tailwindcss/vite` plugin (no `tailwind.config.js`; tokens are declared with `@theme` in `client/src/index.css`). Brand-wide typography, textures, and animation also live there. |
 | Icons | Lucide React | Icons are imported in `Home.tsx`. Use matching Lucide icons for future additions. |
 | Routing | Single-page application | `App.tsx` renders `Home.tsx`; add routes only when genuine additional pages are needed. |
 | Media | Local static images for GitHub handoff | Place self-hosted images in `client/public/images/`, then reference them with `/images/<filename>`. |
@@ -125,23 +127,24 @@ The current interface uses semantic buttons, labels, required field controls, im
 
 The script underline animation and CTA transitions include a `prefers-reduced-motion` override. Any new motion should use `transform` and `opacity`, should remain under roughly 300 ms for standard interactions, and must not hide content or block keyboard users.
 
-## 10. External deployment checklist
+## 10. Deployment checklist
 
-Before moving the project from Manus to GitHub Pages, Netlify, Vercel, Cloudflare Pages, or another host, complete the following steps.
+The site already builds and deploys to GitHub Pages via `.github/workflows/deploy.yml`.
+The steps below cover verifying a change or moving to a different host.
 
 | Step | Required action |
 | --- | --- |
-| 1 | Copy the images listed in `docs/ASSET-MANIFEST.md` into `client/public/images/`. |
-| 2 | Replace every `/manus-storage/...` reference in `Home.tsx` with the corresponding `/images/...` reference. |
-| 3 | Run `pnpm install`, `pnpm check`, and `pnpm build` locally or in continuous integration. |
-| 4 | Configure the host to publish the Vite output at `dist/public`. |
+| 1 | In GitHub → Settings → Pages, confirm the build source is **GitHub Actions**. |
+| 2 | Confirm all images referenced in `Home.tsx` exist in `client/public/images/` (see `docs/ASSET-MANIFEST.md`). |
+| 3 | Run `npm install` and `npm run build` locally; the build fails on type errors. |
+| 4 | The Vite output is `dist/`. The workflow uploads that folder as the Pages artifact. For other hosts (Netlify, Vercel, Cloudflare Pages), set the build command to `npm run build` and the publish directory to `dist`. |
 | 5 | Test every smooth-scroll CTA, the Facebook link, email link, and inquiry form on a phone and desktop browser. |
-| 6 | Add a custom domain only after the production deployment passes a visual and functional check. |
-| 7 | Replace `mailto:` form handoff with a managed form endpoint if the business wants submitted records without the visitor’s email client. |
+| 6 | Point `bowmanbarnworks.com` DNS at GitHub Pages (see `README.md`), then enable **Enforce HTTPS**. |
+| 7 | Replace the `mailto:` form handoff with a managed form endpoint if the business wants submitted records without the visitor’s email client. |
 
 ## 11. Recommended editorial process
 
-Keep changes small and verifiable. For routine content changes, edit the page content, run `pnpm check`, run `pnpm build`, and inspect desktop and mobile. For photo replacements, update the asset manifest in the same commit. For design updates, verify sufficient text contrast against every image and textured background.
+Keep changes small and verifiable. For routine content changes, edit the page content, run `npm run build` (which type-checks first), and inspect desktop and mobile. For photo replacements, update the asset manifest in the same commit. For design updates, verify sufficient text contrast against every image and textured background.
 
 The source code is compact by design. Avoid splitting the page into a large component system unless the site grows into genuinely distinct sections or additional pages. The most valuable future expansion is likely a dedicated project-detail format with location, scope, materials, process photos, and a direct inquiry CTA.
 
