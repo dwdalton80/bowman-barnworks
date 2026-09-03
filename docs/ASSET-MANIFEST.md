@@ -1,8 +1,8 @@
 # Bowman Barnworks Asset Manifest
 
-This manifest records every visual asset referenced by the current website. It is the source of truth for administrators replacing images or moving the website from Manus-managed storage to ordinary GitHub or third-party hosting.
+This manifest records every visual asset referenced by the website and is the source of truth for administrators replacing images.
 
-> **Deployment requirement:** The currently running Manus website uses `/manus-storage/...` paths. For an independent deployment, copy the files listed below into `client/public/images/` and use the public reference shown in the final column.
+All images are self-hosted in `client/public/images/` and referenced as `/images/<filename>`. The "managed-storage reference" column below is kept only as a record of where each asset originated in the original Manus prototype.
 
 ## Brand and feature images
 
@@ -33,7 +33,7 @@ This manifest records every visual asset referenced by the current website. It i
 
 Use images with permission from Bowman Barnworks or the original owner. Use high-resolution files whenever possible. For the gallery, use files at least 1600 px on the long edge so the `object-cover` crop remains sharp on desktop. Keep file names descriptive, lower case, and hyphenated.
 
-After adding a replacement image to `client/public/images/`, update its `image` value in the `projects` array or its image element in `client/src/pages/Home.tsx`. Update this manifest in the same Git commit. Run `pnpm check` and `pnpm build`, then check the gallery on both a wide desktop screen and a mobile screen.
+After adding a replacement image to `client/public/images/`, update its `image` value in the `projects` array or its image element in `client/src/pages/Home.tsx`. Update this manifest in the same Git commit. Run `npm run build`, then check the gallery on both a wide desktop screen and a mobile screen.
 
 ## Retired and reference-only images
 
