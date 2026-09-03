@@ -2,7 +2,7 @@
 
 This repository contains the static marketing website for **Bowman Barnworks**, a Calera, Oklahoma construction and home-improvement company. The site presents the company’s rustic structures, custom carpentry, outdoor living work, founder story, and project inquiry flow in a Western-heritage visual system.
 
-> **Current website behavior:** The site is a client-side React application. The project inquiry form does not save submissions to a database. It opens a pre-addressed email to `bartbowman@gmail.com` with the visitor’s form details.
+> **Current website behavior:** The site is a client-side React application. The project inquiry form does not save submissions to a database. It opens a pre-addressed email to `bartbowman@gmail.com` with the visitor’s form details and displays an on-page confirmation that the email draft is ready for the visitor to review and send.
 
 ## Administrator start here
 

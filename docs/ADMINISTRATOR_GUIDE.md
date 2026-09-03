@@ -106,7 +106,7 @@ The **Start a Project** button below the signature calls `scrollTo("project-inqu
 
 ## 8. Unified contact and inquiry administration
 
-The form is intentionally honest about its behavior: it says that submitting opens a pre-addressed email to Bart. The `handleInquirySubmit` function encodes the visitor’s details into the email subject and message body.
+The form is intentionally honest about its behavior: it says that submitting opens a pre-addressed email to Bart. After a valid submit, an accessible on-page status message confirms that the email draft is ready and tells the visitor to review and send it. The `handleInquirySubmit` function encodes the visitor’s details into the email subject and message body. This state confirms draft preparation only; it does not confirm that the visitor actually sent the email.
 
 | Field | Requirement | Current purpose |
 | --- | --- | --- |
@@ -115,6 +115,7 @@ The form is intentionally honest about its behavior: it says that submitting ope
 | Phone | Optional | Allows a quicker follow-up when supplied. |
 | Project type | Required selection with default | Categorizes the request. |
 | Project details | Required | Captures location, timing, and the visitor’s initial scope. |
+| Email-draft confirmation | Automatic after valid submit | Confirms that the pre-addressed email draft is ready. It does not confirm delivery or sending. |
 
 If direct submission is required, use a form provider or serverless function. A production integration should include spam prevention, a success state, an error state, data-retention terms, and no client-exposed credentials. Do not attempt to send email through a browser-only API key.
 
