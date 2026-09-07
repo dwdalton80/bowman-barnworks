@@ -98,7 +98,7 @@ ${inquiry.details}`);
       <header className="absolute inset-x-0 top-0 z-40 text-[#fff3d8]">
         <div className="container flex items-center justify-between border-b border-white/20 py-5">
           <button onClick={() => scrollTo("top")} className="flex items-center gap-3 text-left" aria-label="Bowman Barnworks home">
-            <img src="/images/bowman-logo.png" alt="Bowman Barnworks logo" className="h-16 w-16 rounded-full object-cover sm:h-20 sm:w-20" />
+            <img src="/images/bowman-logo.png" alt="Bowman Barnworks logo" className="h-32 w-32 rounded-full object-cover sm:h-40 sm:w-40" />
             <span className="brand-condensed hidden text-[12px] font-semibold uppercase tracking-[0.26em] sm:block">Bowman<br />Barnworks</span>
           </button>
           <nav className="brand-condensed hidden items-center gap-8 text-[12px] font-semibold uppercase tracking-[0.22em] md:flex">
