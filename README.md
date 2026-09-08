@@ -2,7 +2,9 @@
 
 Static marketing website for **Bowman Barnworks**, a Calera, Oklahoma construction and
 home-improvement company. Built with **Vite + React + TypeScript + Tailwind CSS** and
-deployed to **GitHub Pages** at **https://bowmanbarnworks.com**.
+deployed to **GitHub Pages** at **https://dwdalton80.github.io/bowman-barnworks/**.
+(The `bowmanbarnworks.com` custom domain is on hold — see “Moving back to a custom
+domain” below.)
 
 > **Contact form behavior:** the project inquiry form does not save submissions to a
 > database. It opens a pre-addressed email to `bartbowman@gmail.com` with the visitor's
@@ -20,8 +22,7 @@ deployed to **GitHub Pages** at **https://bowmanbarnworks.com**.
 | `client/src/pages/Home.tsx` | The entire page: content, gallery data, FAQ data, form logic, CTAs. |
 | `client/src/index.css` | Fonts (Google Fonts), color tokens, typography utilities, textures, motion. |
 | `client/src/main.tsx` / `App.tsx` | React entry point. |
-| `client/public/images/` | All site images, served at `/images/<filename>`. |
-| `client/public/CNAME` | Custom domain for GitHub Pages (`bowmanbarnworks.com`). |
+| `client/public/images/` | All site images. Reference them in code via `asset("/images/<file>")` so they resolve under the deploy base path. |
 | `.github/workflows/deploy.yml` | Builds and publishes to GitHub Pages on every push to `main`. |
 | `docs/` | Administrator guide and image manifest. |
 
@@ -48,31 +49,25 @@ One-time repository setup:
 2. Push to `main` (or run the workflow manually from the **Actions** tab). The first
    run creates the `github-pages` environment and publishes the site.
 
-### Custom domain
+The site is served from the project URL `https://dwdalton80.github.io/bowman-barnworks/`.
+The deploy workflow builds with `BASE_PATH=/bowman-barnworks/` so every asset resolves
+under that subpath; images are referenced through the `asset()` helper in `Home.tsx`,
+and Vite rewrites the paths in `index.html`.
 
-`client/public/CNAME` already contains `bowmanbarnworks.com`, so the build ships a
-`CNAME` file and GitHub Pages picks it up automatically. At your DNS provider, add:
+### Moving back to a custom domain
 
-| Type | Host | Value |
-| --- | --- | --- |
-| A | `@` | `185.199.108.153` |
-| A | `@` | `185.199.109.153` |
-| A | `@` | `185.199.110.153` |
-| A | `@` | `185.199.111.153` |
-| CNAME | `www` | `dwdalton80.github.io.` |
+To point `bowmanbarnworks.com` (or any domain) at this site again:
 
-(GitHub's apex-domain IPs — confirm against the current list in
-[GitHub's Pages docs](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site).)
-After DNS propagates, enable **Enforce HTTPS** in Settings → Pages.
-
-### Hosting without a custom domain
-
-If you ever serve from the project URL `https://dwdalton80.github.io/bowman-barnworks/`
-instead of the custom domain, add a repository variable **`BASE_PATH`** =
-`/bowman-barnworks/` (Settings → Secrets and variables → Actions → Variables). The build
-reads it via `vite.config.ts`. Note that image paths written as `/images/...` string
-literals in `Home.tsx` would also need a base prefix in that mode; the custom-domain
-setup (base `/`) needs no code changes.
+1. Recreate `client/public/CNAME` with one line: the bare domain (`bowmanbarnworks.com`).
+2. Set the repo variable **`BASE_PATH`** to `/` (Settings → Secrets and variables →
+   Actions → Variables), so the build serves from the domain root. With no variable set
+   the workflow defaults to `/bowman-barnworks/`.
+3. In **Settings → Pages**, enter the custom domain.
+4. At your DNS provider, add four apex `A` records to GitHub's Pages IPs
+   (`185.199.108.153`–`185.199.111.153`) and a `www` `CNAME` to `dwdalton80.github.io.`
+   — confirm the current values in
+   [GitHub's Pages docs](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site).
+5. Once DNS resolves, enable **Enforce HTTPS**.
 
 ## Editing content
 

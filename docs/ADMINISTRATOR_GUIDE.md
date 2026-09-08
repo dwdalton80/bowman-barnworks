@@ -11,7 +11,7 @@ The Bowman Barnworks website is a single-page marketing experience designed to m
 
 The project is a static Vite application. It has no database, no user login, no protected dashboard, and no server-side contact capture. The contact form opens a prepared email to `bartbowman@gmail.com`. This makes the current site simple to host but means visitors need an email program configured on their device. The form’s handoff logic is in `handleInquirySubmit` inside `client/src/pages/Home.tsx`.
 
-The site is deployed to GitHub Pages by `.github/workflows/deploy.yml`, which runs on every push to `main`. The custom domain `bowmanbarnworks.com` is set in `client/public/CNAME`. See the repository `README.md` for deployment and DNS setup.
+The site is deployed to GitHub Pages by `.github/workflows/deploy.yml`, which runs on every push to `main`. It is currently served from `https://dwdalton80.github.io/bowman-barnworks/`; the `bowmanbarnworks.com` custom domain is on hold. See the repository `README.md` for deployment and for moving back to a custom domain.
 
 ## 2. Technical architecture
 
@@ -139,7 +139,7 @@ The steps below cover verifying a change or moving to a different host.
 | 3 | Run `npm install` and `npm run build` locally; the build fails on type errors. |
 | 4 | The Vite output is `dist/`. The workflow uploads that folder as the Pages artifact. For other hosts (Netlify, Vercel, Cloudflare Pages), set the build command to `npm run build` and the publish directory to `dist`. |
 | 5 | Test every smooth-scroll CTA, the Facebook link, email link, and inquiry form on a phone and desktop browser. |
-| 6 | Point `bowmanbarnworks.com` DNS at GitHub Pages (see `README.md`), then enable **Enforce HTTPS**. |
+| 6 | To attach a custom domain, follow "Moving back to a custom domain" in `README.md` (restore `CNAME`, set `BASE_PATH=/`, configure DNS, enable **Enforce HTTPS**). |
 | 7 | Replace the `mailto:` form handoff with a managed form endpoint if the business wants submitted records without the visitor’s email client. |
 
 ## 11. Recommended editorial process
